@@ -2,15 +2,18 @@ provider "aws" {
   region = "us-east-1"
 }
 
+# VPC
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
   tags = { Name = "streamline-vpc" }
 }
 
+# Internet Gateway
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 }
 
+# Public Subnets
 resource "aws_subnet" "public1" {
   vpc_id = aws_vpc.main.id
   cidr_block = "10.0.1.0/24"
@@ -25,6 +28,7 @@ resource "aws_subnet" "public2" {
   map_public_ip_on_launch = true
 }
 
+# Private Subnets
 resource "aws_subnet" "private1" {
   vpc_id = aws_vpc.main.id
   cidr_block = "10.0.3.0/24"
@@ -37,6 +41,7 @@ resource "aws_subnet" "private2" {
   availability_zone = "us-east-1b"
 }
 
+# Web Security Group
 resource "aws_security_group" "web_sg" {
   vpc_id = aws_vpc.main.id
 
@@ -56,8 +61,8 @@ resource "aws_security_group" "web_sg" {
 
   egress {
     from_port = 0
-    to_port = 0
-    protocol = "-1"
+    to_port   = 0
+    protocol  = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
