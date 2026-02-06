@@ -3,5 +3,6 @@ variable "region" {
 }
 
 variable "my_ip" {
-  description = "100.53.191.69/32"
+  description = "My public IP for SSH access"
+  default     = "100.53.191.69/32"
 }
