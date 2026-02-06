@@ -1,0 +1,22 @@
+- hosts: web
+  become: yes
+
+  tasks:
+    - name: Install Apache, PHP, MySQL client
+      yum:
+        name:
+          - httpd
+          - php
+          - mysql
+        state: present
+
+    - name: Start Apache
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Deploy application
+      copy:
+        src: ../app/v1/
+        dest: /var/www/html/
